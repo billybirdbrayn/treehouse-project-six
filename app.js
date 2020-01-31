@@ -3,8 +3,10 @@ let qwerty = document.getElementById("qwerty");
 let phrase = document.getElementById("phrase");
 let overlay = document.getElementById("overlay");
 
-let attempts = 0;
+let unorderList = phrase.firstElementChild;
+let li = unorderList.children;
 
+let attempts = 0;
 let gameInit = document.getElementsByClassName('btn__reset')[0];
 
 let phrases = ["Let it be",
@@ -15,9 +17,16 @@ let phrases = ["Let it be",
 ];
 
 function getRandomPhraseAsArray(arr) {
-    let randomPhraseNumber = randomQty(5);
-    let randomPhrase = phrases[randomPhraseNumber];
-    return randomPhrase;
+
+    let length = arr.length - 1;
+    let selection = randomNumber(0, length);
+    let phraseSelected = arr[selection];
+    let letters = phraseSelected.split('');
+    return letters;
+}
+
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function addPhraseToDisplay(phraseArray) {
@@ -89,11 +98,6 @@ function reset() {
     attempts = 0;
 }
 
-function randomQty(total) {
-    return Math.floor(Math.random() * Math.floor(total));
-}
-
-
 gameInit.addEventListener('click', function (event) {
     overlay.style.opacity = 0;
     reset();
@@ -101,7 +105,6 @@ gameInit.addEventListener('click', function (event) {
     addPhraseToDisplay(phraseArray);
     endGame = 0;
 });
-
 
 overlay.addEventListener('transitionend', function (event) {
     if (endGame === 0) {
